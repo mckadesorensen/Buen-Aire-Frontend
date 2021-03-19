@@ -1,4 +1,5 @@
-import {Button, View} from "react-native";
+import {Button, StyleSheet, Dimensions, View} from "react-native";
+import MapView from 'react-native-maps';
 import {createStackNavigator} from "@react-navigation/stack";
 import Icon from "react-native-vector-icons/Ionicons";
 import * as React from "react";
@@ -6,11 +7,24 @@ import * as React from "react";
 // This is just a template for the screen. The stuff will go inside this function
 function About({ navigation }) {
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Button onPress={() => navigation.goBack()} title="Go back Purple Air" />
+        <View style={styles.container}>
+        <MapView style={styles.map} />
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    map: {
+      width: Dimensions.get('window').width,
+      height: Dimensions.get('window').height,
+    },
+  });
 
 // Create a stack template, which will use to navigate, with
 // the drawser navigation.
