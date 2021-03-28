@@ -4,13 +4,31 @@ import {createStackNavigator} from "@react-navigation/stack";
 import Icon from "react-native-vector-icons/Ionicons";
 import * as React from "react";
 
-// This is just a template for the screen. The stuff will go inside this function
+
 function PurpleAir({ navigation }) {
+    getPurpleAirData();
     return (
         <View style={styles.container}>
         <MapView style={styles.map}/>
         </View>
     );
+}
+
+function getPurpleAirData() {
+    console.log('Requesting Purple Air data');
+    const r = new XMLHttpRequest();
+    r.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log('Received Purple Air data:')
+            // TODO modify backend to remove need for double parse
+            const data = JSON.parse(JSON.parse(r.responseText)['PurpleAir']);
+            console.log(data);
+        }
+    }
+    // TODO use API endpoint URL
+    const url = 'https://doug-buen-aire-data-storage-5864.s3-us-west-2.amazonaws.com/test.json';
+    r.open('GET', url);
+    r.send();
 }
 
 const styles = StyleSheet.create({
