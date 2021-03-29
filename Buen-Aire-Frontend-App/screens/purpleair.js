@@ -4,14 +4,70 @@ import {createStackNavigator} from "@react-navigation/stack";
 import Icon from "react-native-vector-icons/Ionicons";
 import * as React from "react";
 
-// This is just a template for the screen. The stuff will go inside this function
-function PurpleAir({ navigation }) {
-    return (
-        <View style={styles.container}>
-        <MapView style={styles.map}/>
-        </View>
-    );
+
+// -------------------------------------------------------------------
+// class PurpleAirMap
+
+class PurpleAirMap extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {purpleAirMarkers: []};
+        this.fetchData();
+    }
+
+    render() {
+        console.log('Rendering Purple Air map:', this.state.purpleAirMarkers.length, 'markers');
+        return (
+            <View style={styles.container}>
+                <MapView
+                        style={styles.map}
+                        // TODO center on the user's location
+                        initialRegion={{latitude: 64, longitude: -151, latitudeDelta: 25, longitudeDelta: 25}}>
+
+                    {this.state.purpleAirMarkers.map((marker, index) => (
+                        // TODO use a custom marker icon (to distinguish the purple air markers
+                        // from other location markers on the map)
+
+                        // TODO color markers depending on PM2.5 value (e.g. red for high and green for low)
+
+                        <MapView.Marker
+                            key={index}
+                            coordinate={{latitude: marker.lat, longitude: marker.lon}}
+                            title={marker.name}
+                            description={this.getMarkerDescription(marker)}
+                        />
+                    ))}
+                </MapView>
+            </View>
+        );
+    }
+
+    getMarkerDescription(marker) {
+        // TODO include all relevant data (see the markers on the official purple air map for ideas)
+        return 'PM2.5 value: ' + marker['pm_2.5'];
+    }
+
+    fetchData() {
+        console.log('Requesting Purple Air data');
+        // TODO use API endpoint URL
+        const url = 'https://doug-buen-aire-data-storage-5864.s3-us-west-2.amazonaws.com/test.json';
+        fetch(url)
+            .then(result => result.json())
+            .then(data => {
+                data = JSON.parse(data['PurpleAir']);
+                data = data.filter(marker => marker.lat && marker.lon);
+                console.log('Received Purple Air data:')
+                console.log(data);
+                this.setState({purpleAirMarkers: data});
+            })
+            .catch(console.error);
+    }
 }
+
+// end of class PurpleAirMap
+// -------------------------------------------------------------------
+
 
 const styles = StyleSheet.create({
     container: {
@@ -41,7 +97,7 @@ const PurpleAirStackScreen=({navigation})=> (
             fontWeight: "bold"
         },
     }}>
-        <PurpleAirStack.Screen name="PurpleAir Map" component={PurpleAir} options={
+        <PurpleAirStack.Screen name="PurpleAir Map" component={PurpleAirMap} options={
             {
                 headerLeft:() =>(
                     <Icon.Button name = 'menu' size = {30} backgroundColor ='dodgerblue' onPress={()=>
