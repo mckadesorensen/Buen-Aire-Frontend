@@ -7,8 +7,9 @@ npm-debug.*
 *.key
 *.mobileprovision
 *.orig.*
+*.idea
+*.vs
 web-build/
 package-lock.json
-
 # macOS
 .DS_Store

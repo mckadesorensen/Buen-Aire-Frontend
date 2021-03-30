@@ -2,7 +2,7 @@ import React from "react";
 import {View, Text, StyleSheet, Image} from "react-native"
 import {Drawer} from "react-native-paper"
 import {DrawerItem} from "@react-navigation/drawer";
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 {/*
 This file contain the details for the drawer navigation. It defines how the
@@ -22,28 +22,28 @@ export function DrawerDetial(props){
             <Drawer.Section >
                 <DrawerItem label={"PurpleAir Map"} labelStyle={styles.labelStyle}
                             onPress={()=>{props.navigation.navigate("PurpleAir Map")}}
-                            icon={({size}) => (<Icon name ='cloud-outline' color={'purple'} size={size}/>)}
+                        icon={({ size }) => (<MaterialCommunityIcons name ='cloud-outline' color={'purple'} size={size}/>)}
                 />
             </Drawer.Section>
 
             <Drawer.Section>
                 <DrawerItem label={"UAF Smoke Map"} labelStyle={styles.labelStyle}
                             onPress={()=>{props.navigation.navigate("UAF Smoke Map")}}
-                            icon={({size}) => (<Icon name ='cloud-outline' color={'blue'} size={size}/>)}
+                        icon={({ size }) => (<MaterialCommunityIcons name ='cloud-outline' color={'blue'} size={size}/>)}
                 />
             </Drawer.Section>
 
             <Drawer.Section>
                 <DrawerItem label={"Saved Locations"} labelStyle={styles.labelStyle}
                             onPress={()=>{props.navigation.navigate("Saved Locations")}}
-                            icon={({size}) => (<Icon name ='star-outline' color={'black'} size={size}/>)}
+                        icon={({ size }) => (<MaterialCommunityIcons name ='star-outline' color={'black'} size={size}/>)}
                 />
             </Drawer.Section>
 
             <Drawer.Section>
                 <DrawerItem label={"About"} labelStyle={styles.labelStyle}
                             onPress={()=>{props.navigation.navigate("About")}}
-                            icon={({size}) => (<Icon name ='information' color={'black'} size={size}/>)}
+                        icon={({ size }) => (<MaterialCommunityIcons name ='information' color={'black'} size={size}/>)}
                 />
             </Drawer.Section>
             </View>
