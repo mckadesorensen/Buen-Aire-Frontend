@@ -1,7 +1,7 @@
-import {Button, StyleSheet, Dimensions, View} from "react-native";
+import {StyleSheet, Dimensions, View} from "react-native";
 import MapView from 'react-native-maps';
 import {createStackNavigator} from "@react-navigation/stack";
-import Icon from "react-native-vector-icons/Ionicons";
+import { Ionicons } from '@expo/vector-icons';
 import * as React from "react";
 
 
@@ -99,12 +99,12 @@ const PurpleAirStackScreen=({navigation})=> (
     }}>
         <PurpleAirStack.Screen name="PurpleAir Map" component={PurpleAirMap} options={
             {
-                headerLeft:() =>(
-                    <Icon.Button name = 'menu' size = {30} backgroundColor ='dodgerblue' onPress={()=>
+                headerLeft: () => (
+                    <Ionicons name='menu' size={30} backgroundColor='dodgerblue' style={{ padding: 10 }} color={'white'} onPress={() =>
                         navigation.openDrawer()}
                     />),
-                headerRight:() =>(
-                    <Icon.Button name = 'search' size = {30} backgroundColor = 'dodgerblue'/>
+                headerRight: () => (
+                    <Ionicons name='search' size={30} backgroundColor='dodgerblue' style={{ padding: 10 }} color={'white'} />
                 )
 
             }

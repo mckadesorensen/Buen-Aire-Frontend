@@ -1,9 +1,6 @@
 import * as React from 'react';
-import { Button, View } from 'react-native';
 import { createDrawerNavigator} from '@react-navigation/drawer';
-import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import Icon  from "react-native-vector-icons/Ionicons";
 import PurpleAirStackScreen from './screens/purpleair';
 import AboutStackScreen from './screens/about';
 import UAFSmokeStackScreen from './screens/uafsmoke';
@@ -34,7 +31,7 @@ export default function App() {
           <Drawer.Screen name="PurpleAir Map" component={PurpleAirStackScreen} />
           <Drawer.Screen name= "UAF Smoke Map" component={UAFSmokeStackScreen}/>
           <Drawer.Screen name="Saved Locations" component={SavedLocationsStackScreen}/>
-          <Drawer.Screen name="About" component={AboutStackScreen} />
+          <Drawer.Screen name="About" component={AboutStackScreen}/>
         </Drawer.Navigator>
       </NavigationContainer>
   );

@@ -1,6 +1,6 @@
 import {Button, View, StyleSheet} from "react-native";
 import {createStackNavigator} from "@react-navigation/stack";
-import Icon from "react-native-vector-icons/Ionicons";
+import {Ionicons} from '@expo/vector-icons';
 import * as React from "react";
 
 // This is just a template for the screen. The stuff will go inside this function
@@ -32,13 +32,13 @@ const SavedLocationsStackScreen=({navigation})=> (
     }}>
         <SavedLocationsStack.Screen name="Saved Locations" component={SavedLocations} options={
             {
-                headerLeft:() =>(
-                    <Icon.Button name = 'menu' size = {30} backgroundColor ='dodgerblue' onPress={()=>
+                headerLeft: () => (
+                    <Ionicons name='menu' size={30} backgroundColor='dodgerblue' style={{ padding: 10 }} color={'white'} onPress={() =>
                         navigation.openDrawer()}
                     />),
-                headerRight:() =>(
-                    <Icon.Button name = 'search' size = {30} backgroundColor = 'dodgerblue'/>
-                    )
+                headerRight: () => (
+                    <Ionicons name='search' size={30} backgroundColor='dodgerblue' style={{ padding: 10 }} color={'white'} />
+                )
             }
         } />
     </SavedLocationsStack.Navigator>

@@ -1,6 +1,6 @@
 import {Button, View} from "react-native";
 import {createStackNavigator} from "@react-navigation/stack";
-import Icon from "react-native-vector-icons/Ionicons";
+import {Ionicons} from '@expo/vector-icons';
 import * as React from "react";
 
 function UAFSmoke({ navigation }) {
@@ -29,14 +29,13 @@ const UAFSmokeStackScreen=({navigation})=> (
     }}>
         <UAFSmokeStack.Screen name="UAF Smoke Map" component={UAFSmoke} options={
             {
-                headerLeft:() =>(
-                    <Icon.Button name = 'menu' size = {30} backgroundColor ='dodgerblue' onPress={()=>
+                headerLeft: () => (
+                    <Ionicons name='menu' size={30} backgroundColor='dodgerblue' style={{ padding: 10 }} color={'white'} onPress={() =>
                         navigation.openDrawer()}
                     />),
-                headerRight:() =>(
-                    <Icon.Button name = 'search' size = {30} backgroundColor = 'dodgerblue'/>
+                headerRight: () => (
+                    <Ionicons name='search' size={30} backgroundColor='dodgerblue' style={{ padding: 10 }} color={'white'} />
                 )
-
             }
         } />
     </UAFSmokeStack.Navigator>
