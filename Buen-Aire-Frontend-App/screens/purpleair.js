@@ -50,13 +50,12 @@ class PurpleAirMap extends React.Component {
 
     fetchData() {
         console.log('Requesting Purple Air data');
-        // TODO use API endpoint URL
-        const url = 'https://doug-buen-aire-data-storage-5864.s3-us-west-2.amazonaws.com/test.json';
+        const url = 'https://omp2k4oahe.execute-api.us-west-2.amazonaws.com/default/prod-buen-aire-egress_data';
         fetch(url)
             .then(result => result.json())
             .then(data => {
-                data = JSON.parse(data['PurpleAir']);
-                data = data.filter(marker => marker.lat && marker.lon);
+                // TODO remove the extra parse after the API gets fixed
+                data = JSON.parse(data)['PurpleAir'];
                 console.log('Received Purple Air data:')
                 console.log(data);
                 this.setState({purpleAirMarkers: data});
