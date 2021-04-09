@@ -54,8 +54,7 @@ class PurpleAirMap extends React.Component {
         fetch(url)
             .then(result => result.json())
             .then(data => {
-                // TODO remove the extra parse after the API gets fixed
-                data = JSON.parse(data)['PurpleAir'];
+                data = data['PurpleAir'];
                 console.log('Received Purple Air data:')
                 console.log(data);
                 this.setState({purpleAirMarkers: data});
