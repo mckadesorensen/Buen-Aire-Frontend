@@ -3,7 +3,6 @@ import { createDrawerNavigator} from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import PurpleAirStackScreen from './screens/purpleair';
 import AboutStackScreen from './screens/about';
-import UAFSmokeStackScreen from './screens/uafsmoke';
 import SavedLocationsStackScreen from './screens/savedLocations';
 import {DrawerDetial} from "./screens/drawerDetails";
 
@@ -29,7 +28,6 @@ export default function App() {
       <NavigationContainer>
         <Drawer.Navigator initialRouteName="PurpleAir" drawerContent={props => <DrawerDetial{...props}/>}>
           <Drawer.Screen name="PurpleAir Map" component={PurpleAirStackScreen} />
-          <Drawer.Screen name= "UAF Smoke Map" component={UAFSmokeStackScreen}/>
           <Drawer.Screen name="Saved Locations" component={SavedLocationsStackScreen}/>
           <Drawer.Screen name="About" component={AboutStackScreen}/>
         </Drawer.Navigator>

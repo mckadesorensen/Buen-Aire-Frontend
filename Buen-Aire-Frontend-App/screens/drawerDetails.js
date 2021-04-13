@@ -27,13 +27,6 @@ export function DrawerDetial(props){
             </Drawer.Section>
 
             <Drawer.Section>
-                <DrawerItem label={"UAF Smoke Map"} labelStyle={styles.labelStyle}
-                            onPress={()=>{props.navigation.navigate("UAF Smoke Map")}}
-                        icon={({ size }) => (<MaterialCommunityIcons name ='cloud-outline' color={'blue'} size={size}/>)}
-                />
-            </Drawer.Section>
-
-            <Drawer.Section>
                 <DrawerItem label={"Saved Locations"} labelStyle={styles.labelStyle}
                             onPress={()=>{props.navigation.navigate("Saved Locations")}}
                         icon={({ size }) => (<MaterialCommunityIcons name ='star-outline' color={'black'} size={size}/>)}
