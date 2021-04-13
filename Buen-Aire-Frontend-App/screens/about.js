@@ -1,5 +1,4 @@
-import {StyleSheet, Dimensions, View} from "react-native";
-import MapView from 'react-native-maps';
+import {StyleSheet, View, Text} from "react-native";
 import {createStackNavigator} from "@react-navigation/stack";
 import {Ionicons} from '@expo/vector-icons';
 import * as React from "react";
@@ -8,7 +7,12 @@ import * as React from "react";
 function About({ navigation }) {
     return (
         <View style={styles.container}>
-        <MapView style={styles.map} />
+        <Text style = {styles.bodyText}>Buen Aire is a
+            real-time air quality monitoring tool.
+            This tool utilizes data from Purple air to
+            produce convenient air quality maps for
+            scientists, researchers, and the general public.
+        </Text>
         </View>
     );
 }
@@ -17,12 +21,16 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
+
+      justifyContent: 'flex-start',
     },
-    map: {
-      width: Dimensions.get('window').width,
-      height: Dimensions.get('window').height,
+    bodyText:{
+        padding: 15,
+        fontSize: 18,
+        textAlign: 'auto',
+        lineHeight: 35,
+        letterSpacing: 2,
+        fontFamily:'serif'
     },
   });
 
