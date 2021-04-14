@@ -4,6 +4,14 @@ import {createStackNavigator} from "@react-navigation/stack";
 import { Ionicons } from '@expo/vector-icons';
 import * as React from "react";
 
+const defaultRegion = { 
+    latitude: 64, 
+    longitude: -151, 
+    latitudeDelta: 25, 
+    longitudeDelta: 25
+};
+
+// get location function
 
 // -------------------------------------------------------------------
 // class PurpleAirMap
@@ -12,18 +20,24 @@ class PurpleAirMap extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {purpleAirMarkers: []};
+        this.state={
+            region: defaultRegion,
+            purpleAirMarkers: []
+        };
         this.fetchData();
+        //add new method: updateLocation
+        // call this.setState with new data
     }
 
     render() {
         console.log('Rendering Purple Air map:', this.state.purpleAirMarkers.length, 'markers');
         return (
-            <View style={styles.container}>
-                <MapView
-                        style={styles.map}
-                        // TODO center on the user's location
-                        initialRegion={{latitude: 64, longitude: -151, latitudeDelta: 25, longitudeDelta: 25}}>
+            <View style={styles.container}> 
+                <MapView 
+                    style={styles.map} 
+                    region={defaultRegion} 
+                    showsUserLocation={true}
+                >
 
                     {this.state.purpleAirMarkers.map((marker, index) => (
                         // TODO use a custom marker icon (to distinguish the purple air markers
@@ -35,12 +49,25 @@ class PurpleAirMap extends React.Component {
                             key={index}
                             coordinate={{latitude: marker.lat, longitude: marker.lon}}
                             title={marker.name}
+                            pinColor={this.getPinColor(marker)}
                             description={this.getMarkerDescription(marker)}
                         />
                     ))}
                 </MapView>
             </View>
         );
+    }
+
+    getPinColor(marker){
+        let pmValue = Number(marker['pm_2.5']);
+        var color = 'green';
+        if(pmValue > 50 && pmValue < 101) {
+            color = 'yellow';
+        }
+        if(pmValue > 100) {
+            color = 'red';
+        }
+        return color;
     }
 
     getMarkerDescription(marker) {
@@ -50,6 +77,7 @@ class PurpleAirMap extends React.Component {
 
     fetchData() {
         console.log('Requesting Purple Air data');
+        // TODO use API endpoint URL
         const url = 'https://omp2k4oahe.execute-api.us-west-2.amazonaws.com/default/prod-buen-aire-egress_data';
         fetch(url)
             .then(result => result.json())
