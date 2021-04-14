@@ -28,19 +28,32 @@ class PurpleAirMap extends React.Component {
                     {this.state.purpleAirMarkers.map((marker, index) => (
                         // TODO use a custom marker icon (to distinguish the purple air markers
                         // from other location markers on the map)
-
-                        // TODO color markers depending on PM2.5 value (e.g. red for high and green for low)
-
                         <MapView.Marker
                             key={index}
                             coordinate={{latitude: marker.lat, longitude: marker.lon}}
                             title={marker.name}
+                            pinColor={this.getPinColor(marker)}
                             description={this.getMarkerDescription(marker)}
                         />
                     ))}
                 </MapView>
             </View>
         );
+    }
+
+    getPinColor(marker){
+        let pmValue = Number(marker['pm_2.5']);
+        var color = 'green';
+        if(pmValue >= 50 && pmValue < 100) {
+            color = 'yellow';
+        }
+        if(pmValue >= 100 && pmValue < 150) {
+            color = 'orange';
+        }
+        if(pmValue >= 150) {
+            color = 'red';
+        }
+        return color;
     }
 
     getMarkerDescription(marker) {
