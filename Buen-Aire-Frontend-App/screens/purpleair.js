@@ -64,7 +64,10 @@ class PurpleAirMap extends React.Component {
         if(pmValue > 50 && pmValue < 101) {
             color = 'yellow';
         }
-        if(pmValue > 100) {
+        if(pmValue < 100 && pmValue < 151) {
+            color = 'orange';
+        }
+        if(pmValue < 150) {
             color = 'red';
         }
         return color;
