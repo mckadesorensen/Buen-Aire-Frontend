@@ -1,8 +1,10 @@
-import {StyleSheet, Dimensions, View} from "react-native";
-import MapView from 'react-native-maps';
+import {StyleSheet, Dimensions, View, Text,TouchableOpacity} from "react-native";
+import MapView, {Callout} from 'react-native-maps';
 import {createStackNavigator} from "@react-navigation/stack";
 import { Ionicons } from '@expo/vector-icons';
+import Modal from "react-native-modal";
 import * as React from "react";
+
 
 
 // -------------------------------------------------------------------
@@ -12,9 +14,16 @@ class PurpleAirMap extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {purpleAirMarkers: []};
+        this.state = {purpleAirMarkers: [], isModalVisible: true, pinName:"Pin Name", pinPMValue: 0.0};
         this.fetchData();
     }
+
+    // State altering functions:
+    _toggleModal = () =>
+        this.setState({isModalVisible: !this.state.isModalVisible});
+
+    _setExpandedInfo = (pin, pmValue) =>
+        this.setState({pinName:pin, pinPMValue:pmValue})
 
     render() {
         console.log('Rendering Purple Air map:', this.state.purpleAirMarkers.length, 'markers');
@@ -31,12 +40,44 @@ class PurpleAirMap extends React.Component {
                         <MapView.Marker
                             key={index}
                             coordinate={{latitude: marker.lat, longitude: marker.lon}}
-                            title={marker.name}
                             pinColor={this.getPinColor(marker)}
-                            description={this.getMarkerDescription(marker)}
-                        />
+                            onCalloutPress={()=>{this._toggleModal(); this._setExpandedInfo(marker.name, marker['pm_2.5'])}}
+                        >
+                            <Callout sytle = {{height: 0, width: 0}}>
+                                <Text style ={{fontWeight: 'bold'}}>{marker.name}</Text>
+                                <Text>{this.getMarkerDescription(marker)}</Text>
+                                <Text>Tap to Expand</Text>
+                            </Callout>
+
+                        </MapView.Marker>
                     ))}
                 </MapView>
+
+                <Modal isVisible={this.state.isModalVisible}
+                       animationIn="zoomInDown"
+                       animationOut="zoomOutUp"
+                       animationInTiming={10}
+                       animationOutTiming={10}
+                       backdropTransitionInTiming={10}
+                       backdropTransitionOutTiming={10}
+                       onBackdropPress={this._toggleModal}
+                >
+
+                    <View style={{ flex: 1,
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center'}}>
+                        <View style={{height: '60%', width: 350, backgroundColor:'white', borderRadius: 10}}>
+                            <TouchableOpacity onPress={this._toggleModal}>
+                                <Ionicons name = 'close-sharp' size = {30} color = '#4590d1'></Ionicons>
+                            </TouchableOpacity>
+
+                            <Text>{this.state.pinName}</Text>
+                            <Text>The PM2.5 Value is: {this.state.pinPMValue}</Text>
+                        </View>
+                    </View>
+                </Modal>
+
             </View>
         );
     }
@@ -55,6 +96,7 @@ class PurpleAirMap extends React.Component {
         }
         return color;
     }
+
 
     getMarkerDescription(marker) {
         // TODO include all relevant data (see the markers on the official purple air map for ideas)
