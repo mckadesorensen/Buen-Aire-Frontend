@@ -4,15 +4,6 @@ import {createStackNavigator} from "@react-navigation/stack";
 import { Ionicons } from '@expo/vector-icons';
 import * as React from "react";
 
-const defaultRegion = { 
-    latitude: 64, 
-    longitude: -151, 
-    latitudeDelta: 25, 
-    longitudeDelta: 25
-};
-
-// get location function
-
 // -------------------------------------------------------------------
 // class PurpleAirMap
 
@@ -20,10 +11,7 @@ class PurpleAirMap extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state={
-            region: defaultRegion,
-            purpleAirMarkers: []
-        };
+        this.state={purpleAirMarkers: []};
         this.fetchData();
         //add new method: updateLocation
         // call this.setState with new data
@@ -35,16 +23,16 @@ class PurpleAirMap extends React.Component {
             <View style={styles.container}> 
                 <MapView 
                     style={styles.map} 
-                    region={defaultRegion} 
+                    region={{latitude: 64, 
+                        longitude: -151, 
+                        latitudeDelta: 25, 
+                        longitudeDelta: 25}} 
                     showsUserLocation={true}
                 >
 
                     {this.state.purpleAirMarkers.map((marker, index) => (
                         // TODO use a custom marker icon (to distinguish the purple air markers
                         // from other location markers on the map)
-
-                        // TODO color markers depending on PM2.5 value (e.g. red for high and green for low)
-
                         <MapView.Marker
                             key={index}
                             coordinate={{latitude: marker.lat, longitude: marker.lon}}
@@ -58,7 +46,7 @@ class PurpleAirMap extends React.Component {
         );
     }
 
-    getPinColor(marker){
+    /*getPinColor(marker){
         let pmValue = Number(marker['pm_2.5']);
         var color = 'green';
         if(pmValue > 50 && pmValue < 101) {
@@ -67,7 +55,22 @@ class PurpleAirMap extends React.Component {
         if(pmValue < 100 && pmValue < 151) {
             color = 'orange';
         }
-        if(pmValue < 150) {
+        if(pmValue > 150) {
+            color = 'red';
+        }
+        return color;
+    }*/
+
+    getPinColor(marker){
+        let pmValue = Number(marker['pm_2.5']);
+        var color = 'green';
+        if(pmValue > -1 && pmValue < 0.26) {
+            color = 'yellow';
+        }
+        if(pmValue < 0.25 && pmValue < 1) {
+            color = 'orange';
+        }
+        if(pmValue > 1) {
             color = 'red';
         }
         return color;
