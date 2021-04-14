@@ -46,31 +46,16 @@ class PurpleAirMap extends React.Component {
         );
     }
 
-    /*getPinColor(marker){
-        let pmValue = Number(marker['pm_2.5']);
-        var color = 'green';
-        if(pmValue > 50 && pmValue < 101) {
-            color = 'yellow';
-        }
-        if(pmValue < 100 && pmValue < 151) {
-            color = 'orange';
-        }
-        if(pmValue > 150) {
-            color = 'red';
-        }
-        return color;
-    }*/
-
     getPinColor(marker){
         let pmValue = Number(marker['pm_2.5']);
         var color = 'green';
-        if(pmValue > -1 && pmValue < 0.26) {
+        if(pmValue >= 50 && pmValue < 100) {
             color = 'yellow';
         }
-        if(pmValue < 0.25 && pmValue < 1) {
+        if(pmValue >= 100 && pmValue < 150) {
             color = 'orange';
         }
-        if(pmValue > 1) {
+        if(pmValue >= 150) {
             color = 'red';
         }
         return color;
