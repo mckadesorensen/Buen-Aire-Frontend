@@ -4,9 +4,7 @@ import {createStackNavigator} from "@react-navigation/stack";
 import { Ionicons } from '@expo/vector-icons';
 import Modal from "react-native-modal";
 import * as React from "react";
-
-
-
+import { Table, Row, Rows} from 'react-native-table-component';
 // -------------------------------------------------------------------
 // class PurpleAirMap
 
@@ -14,7 +12,24 @@ class PurpleAirMap extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {purpleAirMarkers: [], isModalVisible: true, pinName:"Pin Name", pinPMValue: 0.0};
+        this.state = {
+            purpleAirMarkers: [], 
+            isModalVisible: true, 
+            pinName: 'Pin Name', 
+            pinPMValue: 0.0, 
+            pinLocationType: 'Outside',
+            pinColor: 'green',
+            pinQuality : 'Good',
+            pin30min_avg: '0',
+            pin1hour_avg: '0',
+            pin1day_avg: '0',
+            tableHead: ['Time Interval', 'Average PM2.5'],
+            tableData: [
+                ['30 min', '0'],
+                ['1 hour', '0'],
+                ['1 day', '0']
+            ]
+        };
         this.fetchData();
     }
 
@@ -22,8 +37,20 @@ class PurpleAirMap extends React.Component {
     _toggleModal = () =>
         this.setState({isModalVisible: !this.state.isModalVisible});
 
-    _setExpandedInfo = (pin, pmValue) =>
-        this.setState({pinName:pin, pinPMValue:pmValue})
+    _setExpandedInfo = (pin, pmValue, locationType, color, quality, pm30min_avg, pm1hour_avg, pm1day_avg) =>
+        this.setState({
+            pinName:pin, 
+            pinPMValue:pmValue, 
+            pinLocationType:locationType, 
+            pinColor:color, 
+            pinQuality:quality,
+            tableHead: ['Time Interval', 'Average PM2.5'],
+            tableData: [
+                ['30 min', pm30min_avg],
+                ['1 hour', pm1hour_avg],
+                ['1 day', pm1day_avg]
+            ] 
+        });
 
     render() {
         console.log('Rendering Purple Air map:', this.state.purpleAirMarkers.length, 'markers');
@@ -32,7 +59,9 @@ class PurpleAirMap extends React.Component {
                 <MapView
                         style={styles.map}
                         // TODO center on the user's location
-                        initialRegion={{latitude: 64, longitude: -151, latitudeDelta: 25, longitudeDelta: 25}}>
+                        initialRegion={{latitude: 64, longitude: -151, latitudeDelta: 25, longitudeDelta: 25}}
+                        showsUserLocation={true}
+                >
 
                     {this.state.purpleAirMarkers.map((marker, index) => (
                         // TODO use a custom marker icon (to distinguish the purple air markers
@@ -41,7 +70,18 @@ class PurpleAirMap extends React.Component {
                             key={index}
                             coordinate={{latitude: marker.lat, longitude: marker.lon}}
                             pinColor={this.getPinColor(marker)}
-                            onCalloutPress={()=>{this._toggleModal(); this._setExpandedInfo(marker.name, marker['pm_2.5'])}}
+                            onCalloutPress={()=>{
+                                this._toggleModal(); 
+                                this._setExpandedInfo(
+                                    marker.name, 
+                                    marker['pm_2.5'], 
+                                    marker['location_type'], 
+                                    this.getPinColor(marker),
+                                    this.getPinQuality(marker),
+                                    marker['30min_avg'],
+                                    marker['1hour_avg'],
+                                    marker['1day_avg'])
+                            }}
                         >
                             <Callout sytle = {{height: 0, width: 0}}>
                                 <Text style ={{fontWeight: 'bold'}}>{marker.name}</Text>
@@ -62,18 +102,56 @@ class PurpleAirMap extends React.Component {
                        backdropTransitionOutTiming={10}
                        onBackdropPress={this._toggleModal}
                 >
+                    
+                    <View style={styles.container2}>
 
-                    <View style={{ flex: 1,
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center'}}>
-                        <View style={{height: '60%', width: 350, backgroundColor:'white', borderRadius: 10}}>
-                            <TouchableOpacity onPress={this._toggleModal}>
-                                <Ionicons name = 'close-sharp' size = {30} color = '#4590d1'></Ionicons>
+                        <View style={styles.popupWindow}>
+                            
+                            <TouchableOpacity 
+                                style={styles.closeButton} 
+                                onPress={this._toggleModal}>
+                                    <Ionicons name = 'close-sharp' size = {30} color = '#4590d1'></Ionicons>
                             </TouchableOpacity>
 
-                            <Text>{this.state.pinName}</Text>
-                            <Text>The PM2.5 Value is: {this.state.pinPMValue}</Text>
+                            {/*Display pin name*/}
+                            <Text style={styles.pinTitle}>{this.state.pinName}</Text>
+
+                            {/*Display pin air quality status*/}
+                            <Text style={styles.centerText}>Air Quality: {this.state.pinQuality}</Text>
+
+                            {/*Display pin location type*/}
+                            <Text style={styles.centerText}>{this.state.pinLocationType}</Text>
+                            
+                            {/*Display pin pm2.5 value */}
+                            <View style={{
+                                margin:10,
+                                width: 100,
+                                height: 100,
+                                justifyContent: 'center',
+                                borderRadius: 100 / 2,
+                                backgroundColor: this.state.pinColor,
+                                alignSelf:'center'
+                            }}>
+                                <Text style={{
+                                    alignSelf: 'center',
+                                    fontWeight: 'bold',
+                                    color: 'white',
+                                    fontSize: 20
+                                }}>{this.state.pinPMValue}</Text>
+
+                                <Text style={{alignSelf: 'center', 
+                                color: 'white'}}>PM2.5</Text>
+                            </View>
+                            
+                            {/*Display pin's air quality averages */}
+                            <View style={styles.tablePadding}>
+                                <Table borderStyle={styles.tableStyle}>
+                                <Row data={this.state.tableHead} style={{backgroundColor: '#4BA6FF'}} textStyle={styles.tableTitle}/>
+                                <Rows data={this.state.tableData} textStyle={styles.tableText}/>
+                                </Table>
+                            </View>
+
+                            <Text style={{textAlign:'center', fontStyle: 'italic', color: '#696969'}}>{'\n'}Data Pulled from PurpleAir</Text>
                         </View>
                     </View>
                 </Modal>
@@ -95,6 +173,21 @@ class PurpleAirMap extends React.Component {
             color = 'red';
         }
         return color;
+    }
+
+    getPinQuality(marker){
+        let pmValue = Number(marker['pm_2.5']);
+        var quality = 'Good';
+        if(pmValue >= 50 && pmValue < 100) {
+            quality = 'Moderate';
+        }
+        if(pmValue >= 100 && pmValue < 150) {
+            quality = 'Unhealthy for Sensitive Groups (USG)';
+        }
+        if(pmValue >= 150) {
+            quality = 'Unhealthy';
+        }
+        return quality;
     }
 
 
@@ -130,10 +223,58 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
     },
     map: {
-      width: Dimensions.get('window').width,
-      height: Dimensions.get('window').height,
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height,
     },
-  });
+    container2: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignSelf: 'center'
+    },
+    popupWindow: {
+        height: '65%', 
+        width: 350, 
+        backgroundColor:'white', 
+        borderRadius: 10, 
+        justifyContent: 'flex-start',
+    },
+    closeButton: {
+        padding: 10, 
+        alignSelf: 'flex-start'
+    },
+    pinTitle: {
+        padding: 5,
+        flexWrap: 'wrap',
+        fontWeight: 'bold',
+        fontSize: 20,
+        textAlign: 'center'
+    },
+    centerText: {
+        textAlign: 'center'
+    },
+    tableTitle: {
+        fontWeight: 'bold', 
+        padding: 7, 
+        color: 'white', 
+        textAlign: 'center'
+    },
+    tableText: {
+        padding: 5, 
+        textAlign: 'center'
+    },
+    tableStyle: {
+        borderWidth: 2, 
+        borderColor: '#4BA6FF'
+    },
+    tablePadding: {
+        paddingTop: 20, 
+        paddingLeft: 50, 
+        paddingRight: 50
+    }
+
+    
+});
 
 // Create a stack template, which will use to navigate, with
 // the drawser navigation.
