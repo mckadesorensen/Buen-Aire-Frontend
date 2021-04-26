@@ -14,6 +14,7 @@ class PurpleAirMap extends React.Component {
         super(props);
         this.state = {
             purpleAirMarkers: [], 
+            lastRefreshedText: '',
             isModalVisible: true, 
             pinName: 'Pin Name', 
             pinPMValue: 0.0, 
@@ -55,7 +56,8 @@ class PurpleAirMap extends React.Component {
     render() {
         console.log('Rendering Purple Air map:', this.state.purpleAirMarkers.length, 'markers');
         return (
-            <View style={styles.container}>
+            <View>
+                <Text>{this.state.lastRefreshedText}</Text>
                 <MapView
                         style={styles.map}
                         // TODO center on the user's location
@@ -202,10 +204,12 @@ class PurpleAirMap extends React.Component {
         fetch(url)
             .then(result => result.json())
             .then(data => {
+                // TODO improve readability of time string
+                let timeStr = new Date().toString();
                 data = data['PurpleAir'];
                 console.log('Received Purple Air data:')
                 console.log(data);
-                this.setState({purpleAirMarkers: data});
+                this.setState({purpleAirMarkers: data, lastRefreshedText: 'Last refreshed: ' + timeStr});
             })
             .catch(console.error);
     }
