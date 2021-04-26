@@ -1,4 +1,4 @@
-import {StyleSheet, Dimensions, View, Text,TouchableOpacity} from "react-native";
+import {StyleSheet, Dimensions, View, Text,TouchableOpacity, Button} from "react-native";
 import MapView, {Callout} from 'react-native-maps';
 import {createStackNavigator} from "@react-navigation/stack";
 import { Ionicons } from '@expo/vector-icons';
@@ -57,6 +57,12 @@ class PurpleAirMap extends React.Component {
         console.log('Rendering Purple Air map:', this.state.purpleAirMarkers.length, 'markers');
         return (
             <View>
+                <Button
+                    // TODO improve button appearance (make it look more like a button, add a refresh icon, etc.)
+                    onPress={() => this.fetchData()}
+                    title='Refresh data'
+                    accessibilityLabel='Refresh data'
+                />
                 <Text>{this.state.lastRefreshedText}</Text>
                 <MapView
                         style={styles.map}
