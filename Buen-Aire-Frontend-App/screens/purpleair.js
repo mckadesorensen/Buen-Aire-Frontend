@@ -200,7 +200,6 @@ class PurpleAirMap extends React.Component {
 
 
     getMarkerDescription(marker) {
-        // TODO include all relevant data (see the markers on the official purple air map for ideas)
         return 'PM2.5 value: ' + marker['pm_2.5'];
     }
 
