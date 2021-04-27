@@ -209,14 +209,17 @@ class PurpleAirMap extends React.Component {
         fetch(url)
             .then(result => result.json())
             .then(data => {
-                // TODO improve readability of time string
-                let timeStr = new Date().toString();
+                let timeStr = this.formatTimestamp(new Date());
                 data = data['PurpleAir'];
                 console.log('Received Purple Air data:')
                 console.log(data);
                 this.setState({purpleAirMarkers: data, lastRefreshedText: 'Last refreshed: ' + timeStr});
             })
             .catch(console.error);
+    }
+
+    formatTimestamp(date) {
+        return date.toDateString() + ', ' + date.toLocaleTimeString();
     }
 }
 
