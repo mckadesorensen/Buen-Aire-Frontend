@@ -1,10 +1,12 @@
-import {StyleSheet, Dimensions, View, Text,TouchableOpacity} from "react-native";
+import {StyleSheet, Dimensions, View, Text,TouchableOpacity, Button} from "react-native";
 import MapView, {Callout} from 'react-native-maps';
 import {createStackNavigator} from "@react-navigation/stack";
 import { Ionicons } from '@expo/vector-icons';
 import Modal from "react-native-modal";
 import * as React from "react";
 import { Table, Row, Rows} from 'react-native-table-component';
+
+
 // -------------------------------------------------------------------
 // class PurpleAirMap
 
@@ -14,7 +16,8 @@ class PurpleAirMap extends React.Component {
         super(props);
         this.state = {
             purpleAirMarkers: [], 
-            isModalVisible: true, 
+            lastRefreshedText: '',
+            isModalVisible: false,
             pinName: 'Pin Name', 
             pinPMValue: 0.0, 
             pinLocationType: 'Outside',
@@ -33,7 +36,6 @@ class PurpleAirMap extends React.Component {
         this.fetchData();
     }
 
-    // State altering functions:
     _toggleModal = () =>
         this.setState({isModalVisible: !this.state.isModalVisible});
 
@@ -55,7 +57,14 @@ class PurpleAirMap extends React.Component {
     render() {
         console.log('Rendering Purple Air map:', this.state.purpleAirMarkers.length, 'markers');
         return (
-            <View style={styles.container}>
+            <View>
+                <Button
+                    // TODO improve button appearance (make it look more like a button, add a refresh icon, etc.)
+                    onPress={() => this.fetchData()}
+                    title='Refresh data'
+                    accessibilityLabel='Refresh data'
+                />
+                <Text>{this.state.lastRefreshedText}</Text>
                 <MapView
                         style={styles.map}
                         // TODO center on the user's location
@@ -192,7 +201,6 @@ class PurpleAirMap extends React.Component {
 
 
     getMarkerDescription(marker) {
-        // TODO include all relevant data (see the markers on the official purple air map for ideas)
         return 'PM2.5 value: ' + marker['pm_2.5'];
     }
 
@@ -202,12 +210,17 @@ class PurpleAirMap extends React.Component {
         fetch(url)
             .then(result => result.json())
             .then(data => {
+                let timeStr = this.formatTimestamp(new Date());
                 data = data['PurpleAir'];
                 console.log('Received Purple Air data:')
                 console.log(data);
-                this.setState({purpleAirMarkers: data});
+                this.setState({purpleAirMarkers: data, lastRefreshedText: 'Last refreshed: ' + timeStr});
             })
             .catch(console.error);
+    }
+
+    formatTimestamp(date) {
+        return date.toDateString() + ', ' + date.toLocaleTimeString();
     }
 }
 
