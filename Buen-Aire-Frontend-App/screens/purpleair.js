@@ -5,6 +5,8 @@ import { Ionicons } from '@expo/vector-icons';
 import Modal from "react-native-modal";
 import * as React from "react";
 import { Table, Row, Rows} from 'react-native-table-component';
+
+
 // -------------------------------------------------------------------
 // class PurpleAirMap
 
@@ -15,7 +17,7 @@ class PurpleAirMap extends React.Component {
         this.state = {
             purpleAirMarkers: [], 
             lastRefreshedText: '',
-            isModalVisible: true, 
+            isModalVisible: false,
             pinName: 'Pin Name', 
             pinPMValue: 0.0, 
             pinLocationType: 'Outside',
@@ -34,7 +36,6 @@ class PurpleAirMap extends React.Component {
         this.fetchData();
     }
 
-    // State altering functions:
     _toggleModal = () =>
         this.setState({isModalVisible: !this.state.isModalVisible});
 
