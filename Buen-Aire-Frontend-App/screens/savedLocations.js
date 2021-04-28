@@ -35,10 +35,7 @@ const SavedLocationsStackScreen=({navigation})=> (
                 headerLeft: () => (
                     <Ionicons name='menu' size={30} backgroundColor='dodgerblue' style={{ padding: 10 }} color={'white'} onPress={() =>
                         navigation.openDrawer()}
-                    />),
-                headerRight: () => (
-                    <Ionicons name='search' size={30} backgroundColor='dodgerblue' style={{ padding: 10 }} color={'white'} />
-                )
+                    />)
             }
         } />
     </SavedLocationsStack.Navigator>
