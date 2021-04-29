@@ -42,14 +42,6 @@ export function DrawerDetial(props){
                             icon={({ size }) => (<MaterialCommunityIcons name ='cloud-outline' color={'purple'} size={size}/>)}
                     />
                 </Drawer.Section>
-
-                <Drawer.Section>
-                    <DrawerItem label={"Saved Locations"} labelStyle={styles.labelStyle}
-                                onPress={()=>{props.navigation.navigate("Saved Locations")}}
-                            icon={({ size }) => (<MaterialCommunityIcons name ='star-outline' color={'black'} size={size}/>)}
-                    />
-                </Drawer.Section>
-
                 <Drawer.Section>
                     <DrawerItem label={"About"} labelStyle={styles.labelStyle}
                                 onPress={()=>{props.navigation.navigate("About")}}
@@ -65,24 +57,26 @@ const styles = StyleSheet.create({
     topContent: {
         flex:1,
         backgroundColor: "dodgerblue",
-        alignItems:"center",
+        alignItems: "center",
+        paddingBottom:20
     },
     indexScale: {
-        paddingTop: 20, 
-        paddingBottom: 20
+        paddingTop: 10, 
+        paddingBottom: 10
     },  
     image:{
         flexDirection:'row',
         height:'100%',
-        width:"80%",
+        width: "80%",
     },
     imageText:{
         fontWeight:'bold',
         position:'absolute',
-        top:'85%',
+        top:'92%',
         fontSize:24,
         color:'white',
         textAlign: 'center'
+   
     },
     labelStyle:{
         color: 'dodgerblue',
@@ -106,7 +100,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'orange'
     },
     red: {
-        backgroundColor: 'red'
+        backgroundColor: 'red',
     },
     blackText: {
         padding: 7, 
