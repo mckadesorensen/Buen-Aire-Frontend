@@ -16,21 +16,41 @@ drawer looks.
 */}
 export function DrawerDetial(props){
     return(
-        <View style = {{ flex:1, justifyContent:'center', alignContent:'center'}}>
+        <View style = {{flex: 1, flexDirection: 'column', justifyContent:'center', alignContent:'center'}}>
             {/* Control the logo image*/}
             <View style={styles.topContent}>
                 <Image source={require('../assets/Buen-Aire-Logo.png')} style={styles.image}/>
                 <Text style={styles.imageText}> BUEN AIRE {'\n'}{'\n'}</Text>
             </View>
 
-            <View style={styles.indexScale}>
-                <Text style = {styles.title}>Air Quality Scale Index{'\n'}</Text>
-                <Table borderStyle={styles.table}>
-                <Row data={goodRange} style={styles.green} textStyle={styles.whiteText}/>
-                <Row data={moderateRange} style={styles.yellow} textStyle={styles.blackText}/>
-                <Row data={USGRange} style={styles.orange} textStyle={styles.blackText}/>
-                <Row data={unhealthyRange} style={styles.red} textStyle={styles.whiteText}/>
-                </Table>
+            <View>
+                <Text style={{paddingTop: 10, textAlign: 'center',textAlign: 'center',  color:'black', fontWeight: 'bold'}}>Air Quality Index Scale</Text>
+                <Text style={{padding: 10, justifyContent: 'center', fontSize: 12}}>
+                    PM 2.5 our primary measure of air quality. It refers to a category of particulate pollutant that is 2.5 microns or smaller in size.
+                    </Text>
+                <Text style={{paddingLeft: 10, paddingRight: 10, paddingBottom: 10, justifyContent: 'center', fontSize: 12}}>
+                    The scale below shows color-coded tiers of air quality in terms of a pin's PM2.5 value. Each pin on the map changes color depending on its PM2.5 value.
+                </Text>
+            </View>
+
+            <View style={{justifyContent:'center', padding: 10, alignItems: 'center', backgroundColor: 'rgb(0, 128, 0)', borderTopLeftRadius: 10, borderTopRightRadius: 10, marginLeft: 20, marginRight: 20}}>
+                <Text style = {{fontSize: 13, color:'white', fontWeight: 'bold'}}>GOOD{'\n'}</Text>
+                <Text style = {{margin: '-5%', color:'white', fontSize: 12}}>0 - 50 PM2.5{'\n'}</Text>
+            </View>
+
+            <View style={{justifyContent:'center', padding: 10, alignItems: 'center', backgroundColor: 'rgb(255, 215, 0)', marginLeft: 20, marginRight: 20}}>
+                <Text style = {{fontSize: 13, color:'black', fontWeight: 'bold'}}>MODERATE{'\n'}</Text>
+                <Text style = {{margin: '-5%', color:'black', fontSize: 12}}>51 - 100 PM2.5{'\n'}</Text>
+            </View>
+
+            <View style={{justifyContent:'center', padding: 10, alignItems: 'center', backgroundColor: 'rgb(255, 140, 0)', marginLeft: 20, marginRight: 20}}>
+                <Text style = {{fontSize: 13, textAlign: 'center' ,color:'black', fontWeight: 'bold'}}>UNHEALTHY FOR SENSITIVE GROUPS{'\n'}</Text>
+                <Text style = {{margin: '-5%', color:'black', fontSize: 12}}>101 - 150 PM2.5{'\n'}</Text>
+            </View>
+
+            <View style={{justifyContent:'center', padding: 10, alignItems: 'center', backgroundColor: 'rgb(255, 0, 0)', borderBottomLeftRadius: 10, borderBottomRightRadius: 10, marginBottom: 10, marginLeft: 20, marginRight: 20}}>
+                <Text style = {{fontSize: 13, color:'white', fontWeight: 'bold'}}>UNHEALTHY{'\n'}</Text>
+                <Text style = {{margin: '-5%', color:'white', fontSize: 12}}>151 - 200 PM2.5{'\n'}</Text>
             </View>
             
 
@@ -66,6 +86,8 @@ const styles = StyleSheet.create({
         flex:1,
         backgroundColor: "dodgerblue",
         alignItems:"center",
+        paddingTop: 20,
+        paddingBottom: 40,
     },
     indexScale: {
         paddingTop: 20, 
@@ -74,12 +96,10 @@ const styles = StyleSheet.create({
     image:{
         flexDirection:'row',
         height:'100%',
-        width:"80%",
+        width:'70%',
     },
     imageText:{
         fontWeight:'bold',
-        position:'absolute',
-        top:'85%',
         fontSize:24,
         color:'white',
         textAlign: 'center'
