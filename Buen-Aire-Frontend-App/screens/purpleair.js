@@ -64,7 +64,7 @@ class PurpleAirMap extends React.Component {
                     title='Refresh data'
                     accessibilityLabel='Refresh data'
                 />
-                <Text>{this.state.lastRefreshedText}</Text>
+                <Text style={[styles.centerText, styles.textPadding]}>{this.state.lastRefreshedText}</Text>
                 <MapView
                         style={styles.map}
                         // TODO center on the user's location
@@ -92,10 +92,10 @@ class PurpleAirMap extends React.Component {
                                     marker['1day_avg'])
                             }}
                         >
-                            <Callout sytle = {{height: 0, width: 0}}>
-                                <Text style ={{fontWeight: 'bold'}}>{marker.name}</Text>
-                                <Text>{this.getMarkerDescription(marker)}</Text>
-                                <Text>Tap to Expand</Text>
+                            <Callout sytle = {{height: 0, width: 0, padding: 20}}>
+                                <Text style ={{fontWeight: 'bold', textAlign: 'center'}}>{marker.name}</Text>
+                                <Text style={{textAlign: 'center'}}>{this.getMarkerDescription(marker)}</Text>
+                                <Text style={{padding: 5, textAlign: 'center', color: 'dodgerblue', fontWeight: 'bold'}}>Tap to Expand</Text>
                             </Callout>
 
                         </MapView.Marker>
@@ -171,19 +171,23 @@ class PurpleAirMap extends React.Component {
 
     getPinColor(marker){
         let pmValue = Number(marker['pm_2.5']);
-        var color = 'green';
+        {/*Green*/}
+        var color = 'rgb(0, 128, 0)';
         if(pmValue >= 50 && pmValue < 100) {
-            color = 'yellow';
+            {/*yellow but rbg code is gold*/}
+            color = 'rgb(255, 215, 0)';
         }
         if(pmValue >= 100 && pmValue < 150) {
-            color = 'orange';
+            {/*orange but rgb code is darkOrange*/}
+            color = 'rgb(255, 140, 0)';
         }
         if(pmValue >= 150) {
-            color = 'red';
+            {/*Red*/}
+            color = 'rgb(255, 0, 0)';
         }
         return color;
     }
-
+    
     getPinQuality(marker){
         let pmValue = Number(marker['pm_2.5']);
         var quality = 'Good';
@@ -262,6 +266,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 20,
         textAlign: 'center'
+    },
+    textPadding:{
+        padding: 5
     },
     centerText: {
         textAlign: 'center'
