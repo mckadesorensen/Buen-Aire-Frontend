@@ -1,5 +1,25 @@
 # Buen-Aire-Frontend
 
+## Trello board
+
+The Trello board for the project can be found here: https://trello.com/b/coQLFlNl/main-board
+
+The board includes items that apply to both the frontend and backend repos.
+
+The board should be publicly visible. If you have problems viewing the board, please contact one of the previous team members for help.
+
+You should be able to export or copy the board to your own Trello account (Google for the Trello documentation on how to do this). If this fails, contact one of the previous team members to ask for an invitation to become a board member (hopefully any of us can do this, though it may be restricted to the board admin).
+
+You may instead want to transfer the remaining backlog items to GitHub. In this case, you will have to decide if you want to move all of the issues to the frontend repo, or attempt to split up the issues between the frontend and backend repos (keep in mind that some of the issues relate to both the frontend and the backend, but you could just move these more general issues to the frontend repo).
+
+If you want to transfer the remaining backlog items to GitHub, then for each Trello card, you should:
+* Create a new GitHub issue (in either the frontend or backend repo, as appropriate) with the same title as the Trello card.
+* Remember to click on the Trello card to view the full description and copy it to the GitHub issue.
+
+Good luck!
+
+## General notes
+
 The Frontend is developed with React Native Expo CLI. We choose Expo CLI and not Reactive Native CLI because we will not be writing code with native languages (Swift and Java); therefore, we don't need the extra functionality of being able to 
 modify the native code directly that Reactive Native CLI provides. 
 
