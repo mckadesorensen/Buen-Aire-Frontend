@@ -210,7 +210,7 @@ class PurpleAirMap extends React.Component {
 
     fetchData() {
         console.log('Requesting Purple Air data');
-        const url = 'https://omp2k4oahe.execute-api.us-west-2.amazonaws.com/default/prod-buen-aire-egress_data';
+        const url = 'https://fqx09sb0mh.execute-api.us-west-2.amazonaws.com/default/prod-buen-aire-egress_data';
         fetch(url)
             .then(result => result.json())
             .then(data => {
